@@ -1,3 +1,4 @@
+'use strict';
 import mysql from 'mysql';
 import config from 'config';
 import { isFieldAcceptable } from '../utilities/inputValidator';
@@ -12,7 +13,7 @@ export const registerUser = (req, res) => {
         var password = isFieldAcceptable("password", req.body.password);
     }
     catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(400).send(new Response(false, err.toString().split(":")[1].trim()));
     }
     let connection = mysql.createConnection(dbConfig);
@@ -30,14 +31,13 @@ export const registerUser = (req, res) => {
 
 export const loginUser = (req, res) => {
 
-    console.log("Login API Called");
     res.setHeader('Content-type', 'application/json');
     try {
         var email = isFieldAcceptable("email", req.query.email).toLowerCase();
         var password = isFieldAcceptable("password", req.query.password);
     }
     catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(400).send(new Response(false, err.toString().split(":")[1].trim()));
     }
     let connection = mysql.createConnection(dbConfig);
@@ -60,7 +60,6 @@ export const loginUser = (req, res) => {
 
 export const addNote = (req, res) => {
 
-    console.log("Add Note API Called");
     res.setHeader('Content-type', 'application/json');
     try {
         var userID = isFieldAcceptable("User ID", req.body.userID);
@@ -68,7 +67,7 @@ export const addNote = (req, res) => {
         var description = isFieldAcceptable("Description", req.body.description);
     }
     catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(400).send(new Response(false, err.toString().split(":")[1].trim()));
     }
     let connection = mysql.createConnection(dbConfig);
@@ -85,7 +84,7 @@ export const addNote = (req, res) => {
 };
 
 export const updateNote = (req, res) => {
-    console.log("Update Note API Called");
+
     res.setHeader('Content-type', 'application/json');
     try {
         var noteID = isFieldAcceptable("Note ID", req.body.noteID);
@@ -93,7 +92,7 @@ export const updateNote = (req, res) => {
         var description = isFieldAcceptable("Description", req.body.description);
     }
     catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(400).send(new Response(false, err.toString().split(":")[1].trim()));
     }
     let connection = mysql.createConnection(dbConfig);
@@ -113,13 +112,13 @@ export const updateNote = (req, res) => {
 };
 
 export const deleteNote = (req, res) => {
-    console.log("Delete Note API Called");
+
     res.setHeader('Content-type', 'application/json');
     try {
         var noteID = isFieldAcceptable("Note ID", req.body.noteID);
     }
     catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(400).send(new Response(false, err.toString().split(":")[1].trim()));
     }
     let connection = mysql.createConnection(dbConfig);
@@ -139,13 +138,13 @@ export const deleteNote = (req, res) => {
 };
 
 export const viewNote = (req, res) => {
-    console.log("View Note API Called");
+
     res.setHeader('Content-type', 'application/json');
     try {
         var noteID = isFieldAcceptable("Note ID", req.query.noteID);
     }
     catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(400).send(new Response(false, err.toString().split(":")[1].trim()));
     }
     let connection = mysql.createConnection(dbConfig);
@@ -173,13 +172,12 @@ export const viewNote = (req, res) => {
 
 export const viewUserNotes = (req, res) => {
 
-    console.log("View User Notes API Called");
     res.setHeader('Content-type', 'application/json');
     try {
         var userID = isFieldAcceptable("User ID", req.query.userID);
     }
     catch (err) {
-        console.log(err);
+        console.error(err);
         return res.status(400).send(new Response(false, err.toString().split(":")[1].trim()));
     }
     let connection = mysql.createConnection(dbConfig);

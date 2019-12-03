@@ -1,3 +1,4 @@
+'use strict';
 export const isFieldAcceptable = (fieldName, fieldValue) => {
 
     if (typeof fieldValue === "undefined") {
