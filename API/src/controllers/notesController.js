@@ -50,8 +50,6 @@ export const loginUser = (req, res) => {
             return res.status(404).send(new Response(false, "Incorrect Email ID or Password!"));
         }
         else {
-            results[0][0]["userID"] = results[0][0]["user_id"];
-            delete results[0][0]["user_id"];
             res.send(new Response(true, results[0][0]));
         }
     });
@@ -158,12 +156,6 @@ export const viewNote = (req, res) => {
 
         }
         else {
-            results[0][0]["userID"] = results[0][0]["user_id"];
-            results[0][0]["noteID"] = results[0][0]["note_id"];
-            results[0][0]["created"] = results[0][0]["created"].toISOString().replace("T", " ").replace("Z", "");
-            results[0][0]["updated"] = (results[0][0]["updated"] !== null) ? results[0][0]["updated"].toISOString().replace("T", " ").replace("Z", "") : "N/A";
-            delete results[0][0]["user_id"];
-            delete results[0][0]["note_id"];
             res.send(new Response(true, results[0][0]));
         }
     });
@@ -190,14 +182,6 @@ export const viewUserNotes = (req, res) => {
             return res.status(404).send(new Response(false, "No Notes Found for the given User ID!"));
         }
         else {
-            for (let index = 0; index < results[0].length; index++) {
-                results[0][index]["userID"] = results[0][index]["user_id"];
-                results[0][index]["noteID"] = results[0][index]["note_id"];
-                results[0][index]["created"] = results[0][index]["created"].toISOString().replace("T", " ").replace("Z", "");
-                results[0][index]["updated"] = (results[0][index]["updated"] !== null) ? results[0][index]["updated"].toISOString().replace("T", " ").replace("Z", "") : "N/A";
-                delete results[0][index]["user_id"];
-                delete results[0][index]["note_id"];
-            }
             res.send(new Response(true, results[0]));
         }
     });
