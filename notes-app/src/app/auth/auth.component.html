@@ -1,0 +1,58 @@
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+    <mat-card style="text-align: center;">
+        <mat-card-title>
+            <button mat-fab color="primary" type="button" matTooltip="Welcome to Notes App" matTooltipPosition="after"
+                matTooltipShowDelay="500">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+        </mat-card-title>
+        <mat-card-content>
+            <div>
+                <mat-form-field appearance="outline" color="accent">
+                    <mat-label>Email</mat-label>
+                    <input matInput id="email" formControlName="email">
+                </mat-form-field>
+                <mat-error
+                    *ngIf="!authForm.get('email').valid && authForm.get('email').touched && authForm.get('email').errors['email']">
+                    Not a valid email
+                </mat-error>
+                <mat-error
+                    *ngIf="!authForm.get('email').valid && authForm.get('email').touched && authForm.get('email').errors['required']">
+                    You must enter an email
+                </mat-error>
+            </div>
+            <div>
+                <mat-form-field appearance="outline" color="accent">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" id="password" formControlName="password">
+                </mat-form-field>
+                <mat-error
+                    *ngIf="!authForm.get('password').valid && authForm.get('password').touched && authForm.get('password').errors['required']">
+                    You must enter a password
+                </mat-error>
+            </div>
+            <div *ngIf="!isLoginMode">
+                <mat-form-field appearance="outline" color="accent">
+                    <mat-label>Confirm Password</mat-label>
+                    <input matInput type="password" id="confirmPassword" formControlName="confirmPassword">
+                </mat-form-field>
+                <mat-error
+                    *ngIf="!authForm.get('confirmPassword').valid && authForm.get('confirmPassword').touched && authForm.get('confirmPassword').errors['required']">
+                    You must confirm password
+                </mat-error>
+                <mat-error
+                    *ngIf="authForm.get('confirmPassword').valid && authForm.get('confirmPassword').touched && authForm.get('confirmPassword').value!==authForm.get('password').value">
+                    Passwords do not match
+                </mat-error>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button type="submit" color="primary" [disabled]=authForm.invalid>
+                {{ isLoginMode ? 'Sign In' : 'Sign Up' }}
+            </button>
+            <button mat-raised-button type="button" color="accent" (click)="onSwitchMode()">
+                Switch to {{ isLoginMode ? 'Sign Up' : 'Sign In' }}
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</form>

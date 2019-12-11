@@ -1,0 +1,16 @@
+<mat-toolbar color="primary" class="navbar">
+    <div>Notes</div>
+    <div>
+        <button mat-mini-fab [matMenuTriggerFor]="accountMenu">
+            <mat-icon>account_circle</mat-icon>
+        </button>
+        <button mat-mini-fab>
+            <mat-icon>power_settings_new</mat-icon>
+        </button>
+    </div>
+</mat-toolbar>
+
+<mat-menu #accountMenu="matMenu" xPosition="after" yPosition="below">
+    <button mat-menu-item>Login</button>
+    <button mat-menu-item>Register</button>
+</mat-menu>
