@@ -20,7 +20,7 @@ export const registerUser = async (req, res) => {
     });
     try {
         const savedUser = await user.save();
-        res.send(new Response(true, { user: { _id: user._id } }));
+        res.send(new Response(true, { user: { _id: user._id, emailID: user.emailID } }));
     } catch (err) {
         console.error(err);
         res.status(406).send(new Response(false, { message: "Could Not Register User, Email might be already registered!" }));

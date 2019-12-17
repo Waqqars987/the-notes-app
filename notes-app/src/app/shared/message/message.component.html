@@ -1,0 +1,12 @@
+<mat-dialog-content>
+    <mat-error *ngIf="data.error">{{data.message}}</mat-error>
+    <h5 style="color: green;" *ngIf="!data.error">{{data.message}}</h5>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button class="center" mat-mini-fab color="warn" mat-dialog-close *ngIf="data.error">
+        <mat-icon>close</mat-icon>
+    </button>
+    <button class="center" mat-mini-fab color="primary" mat-dialog-close *ngIf="!data.error">
+        <mat-icon>check</mat-icon>
+    </button>
+</mat-dialog-actions>

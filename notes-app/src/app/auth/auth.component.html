@@ -1,4 +1,8 @@
-<form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+<div class="center" *ngIf="isLoading">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+
+<form [formGroup]="authForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
     <mat-card style="text-align: center;">
         <mat-card-title>
             <button mat-fab color="primary" type="button" matTooltip="Welcome to Notes App" matTooltipPosition="after"
@@ -41,13 +45,13 @@
                     You must confirm password
                 </mat-error>
                 <mat-error
-                    *ngIf="authForm.get('confirmPassword').valid && authForm.get('confirmPassword').touched && authForm.get('confirmPassword').value!==authForm.get('password').value">
+                    *ngIf="authForm.get('confirmPassword').touched && authForm.get('confirmPassword').value!==authForm.get('password').value">
                     Passwords do not match
                 </mat-error>
             </div>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button type="submit" color="primary" [disabled]=authForm.invalid>
+            <button mat-raised-button type="submit" color="primary">
                 {{ isLoginMode ? 'Sign In' : 'Sign Up' }}
             </button>
             <button mat-raised-button type="button" color="accent" (click)="onSwitchMode()">
