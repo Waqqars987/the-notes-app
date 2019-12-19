@@ -33,7 +33,14 @@ export class AuthComponent implements OnInit {
 
   onSubmit() {
 
-    if (!this.authForm.valid) {
+    if (this.isLoginMode && this.authForm.controls.email.invalid &&
+      this.authForm.controls.password.invalid) {
+      this.dialog.open(MessageComponent,
+        { data: { error: true, message: "Please enter email & password!" } }
+      );
+      return;
+    }
+    if (!this.isLoginMode && !this.authForm.valid) {
       this.dialog.open(MessageComponent,
         { data: { error: true, message: "You are missing required inputs!" } }
       );
@@ -43,17 +50,19 @@ export class AuthComponent implements OnInit {
     this.isLoading = true;
 
     if (this.isLoginMode) {
-      authObs = this.authService.login(this.authForm.value.email, this.authForm.value.password);
+      authObs = this.authService.login(this.authForm.value);
     } else {
-      authObs = this.authService.signup(this.authForm.value.email, this.authForm.value.password);
+      authObs = this.authService.signup(this.authForm.value);
     }
 
     authObs.subscribe(
       resData => {
         this.isLoading = false;
-        this.dialog.open(MessageComponent,
-          { data: { error: false, message: "You have successfully registered!" } }
-        );
+        if (!this.isLoginMode) {
+          this.dialog.open(MessageComponent,
+            { data: { error: false, message: "You have successfully registered!" } }
+          );
+        }
         this.router.navigate(['/notes']);
       },
       errorMessage => {

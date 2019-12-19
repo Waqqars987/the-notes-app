@@ -21,12 +21,12 @@ export class AuthService {
     user = new BehaviorSubject<User>(null);
     constructor(private http: HttpClient, private router: Router) { }
 
-    signup(email: string, password: string) {
+    signup(userData: { email: string, password: string }) {
         return this.http.post<AuthResponseData>(
             'http://localhost:3000/user',
             {
-                email: email,
-                password: password
+                email: userData.email,
+                password: userData.password
             })
             .pipe(
                 catchError(this.handleError),
@@ -36,13 +36,13 @@ export class AuthService {
             );
     }
 
-    login(email: string, password: string) {
+    login(userData: { email: string, password: string }) {
         return this.http.get<AuthResponseData>(
             'http://localhost:3000/user',
             {
                 params: {
-                    email: email,
-                    password: password
+                    email: userData.email,
+                    password: userData.password
                 }
             })
             .pipe(
