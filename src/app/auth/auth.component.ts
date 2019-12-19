@@ -40,7 +40,7 @@ export class AuthComponent implements OnInit {
       );
       return;
     }
-    if (!this.isLoginMode && !this.authForm.valid) {
+    if (!this.isLoginMode && this.authForm.invalid) {
       this.dialog.open(MessageComponent,
         { data: { error: true, message: "You are missing required inputs!" } }
       );

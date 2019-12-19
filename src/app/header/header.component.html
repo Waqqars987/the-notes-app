@@ -1,7 +1,8 @@
 <mat-toolbar color="primary" class="navbar">
     <div>Notes</div>
     <div>
-        <button mat-mini-fab (click)="onLogout()" *ngIf="isAuthenticated">
+        <button mat-mini-fab (click)="onLogout()" *ngIf="isAuthenticated" matTooltip="Logout"
+            matTooltipPosition="after" matTooltipShowDelay="500">
             <mat-icon>power_settings_new</mat-icon>
         </button>
     </div>

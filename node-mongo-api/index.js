@@ -4,12 +4,14 @@ import mongoose from 'mongoose';
 import 'dotenv/config';
 import { routes } from './src/routes/notesRoute'
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DB_CONNECTION, {
     useCreateIndex: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    keepAlive: 300000,
+    connectTimeoutMS: 30000
 });
 
 app.set("json spaces", 0);
