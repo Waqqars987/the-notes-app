@@ -10,6 +10,7 @@ mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DB_CONNECTION, {
     useCreateIndex: true,
     useNewUrlParser: true,
+    useUnifiedTopology: true,
     keepAlive: 300000,
     connectTimeoutMS: 30000
 });
