@@ -1,4 +1,5 @@
 'use strict';
+import mongoose from 'mongoose';
 import Users from '../models/notesModel';
 import { isFieldAcceptable } from '../utilities/inputValidator';
 import { Response } from '../models/responseModel';
@@ -68,15 +69,19 @@ export const addNote = async (req, res) => {
         return res.status(400).send(new Response(false, err.toString().split(":")[1].trim()));
     }
     try {
+        const newId = new mongoose.Types.ObjectId();
         const note = {
+            _id: newId,
             title: title,
-            description: description
+            description: description,
+            lastEdited: Date.now()
         };
         const result = await Users.updateOne(
             { _id: userID },
             { $push: { notes: note } }
         );
-        res.send(new Response(true, { message: "Note Added Successfully!" }))
+        res.send(new Response(true,
+            { message: "Note Added Successfully!", _id: newId, lastEdited: note.lastEdited }))
     } catch (err) {
         console.error(err);
         res.status(400).send(new Response(false, "Could Not Add Note, check User ID!"))
@@ -97,18 +102,20 @@ export const updateNote = async (req, res) => {
         return res.status(400).send(new Response(false, err.toString().split(":")[1].trim()));
     }
     try {
+        let lastEdited = Date.now();
         const result = await Users.updateOne(
             { "_id": userID, "notes._id": noteID },
             {
                 "$set": {
                     "notes.$.title": title,
                     "notes.$.description": description,
-                    "notes.$.updated": Date.now()
+                    "notes.$.updated": lastEdited
                 }
             }
         );
         if (result.nModified > 0) {
-            res.send(new Response(true, { message: "Note Updated Successfully!" }));
+            res.send(new Response(true,
+                { message: "Note Updated Successfully!", _id: noteID, lastEdited: lastEdited }));
         }
         else {
             res.status(404).send(new Response(false, { message: "Incorrect Note/User ID!" }));

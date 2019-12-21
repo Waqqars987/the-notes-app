@@ -10,10 +10,10 @@ const UserSchema = mongoose.Schema({
     },
     notes: [
         {
+            _id: { type: mongoose.Schema.Types.ObjectId, required: true, trim: true },
             title: { type: String, required: true, trim: true },
             description: { type: String, required: true, trim: true },
-            created: { type: Date, default: Date.now },
-            updated: { type: Date }
+            lastEdited: { type: Date }
         }
     ]
 });

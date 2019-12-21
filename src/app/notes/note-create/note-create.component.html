@@ -1,1 +1,49 @@
-<p>note-create works!</p>
+<div class="example-container">
+
+    <mat-toolbar role="heading">
+        <mat-icon color="primary">note_add <span class="mat-display-1">Add a Note</span></mat-icon>
+    </mat-toolbar>
+    <form #noteRef="ngForm" (submit)="addNote(noteRef)" novalidate>
+
+        <div>
+            <mat-form-field floatLabel="auto" color="accent">
+                <mat-label>Title</mat-label>
+                <input matInput name="title" ngModel required #titleRef="ngModel">
+                <mat-hint align="end">Give your note a title</mat-hint>
+            </mat-form-field>
+            <mat-error *ngIf="titleRef.invalid && (titleRef.touched||titleRef.dirty) && 
+            titleRef.errors.required">
+                A title is required
+            </mat-error>
+        </div>
+
+        <div>
+            <mat-form-field floatLabel="auto" color="accent">
+                <mat-label>Description</mat-label>
+                <textarea matInput name="description" ngModel required #descriptionRef="ngModel"></textarea>
+                <mat-hint align="end">Describe your note</mat-hint>
+            </mat-form-field>
+            <mat-error *ngIf="descriptionRef.invalid && (descriptionRef.touched||descriptionRef.dirty) && 
+            descriptionRef.errors.required">
+                A description is required
+            </mat-error>
+        </div>
+
+        <div style="text-align: center;">
+            <button color="primary" mat-flat-button [disabled]="isSaving||isSaved">
+                <mat-icon>save</mat-icon>
+                {{isSaving||isSaved?'':'Save'}}
+                <mat-icon *ngIf="isSaving">
+                    <mat-spinner color="accent" diameter="20">
+                    </mat-spinner>
+                </mat-icon>
+                <mat-icon *ngIf="isSaved" color="accent">done</mat-icon>
+            </button>
+
+            <button type="button" color="warn" mat-flat-button [disabled]="isSaving" (click)="onClear()">
+                <mat-icon>cancel</mat-icon>
+                Cancel
+            </button>
+        </div>
+    </form>
+</div>

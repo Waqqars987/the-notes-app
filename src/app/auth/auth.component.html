@@ -1,11 +1,10 @@
-<div class="center" *ngIf="isLoading">
-    <app-loading-spinner></app-loading-spinner>
-</div>
-
 <div class="center">
+
+    <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+
     <form [formGroup]="authForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
         <mat-card style="text-align:center;">
-            
+
             <mat-card-title>
                 <button mat-fab color="primary" type="button" matTooltip="Welcome to Notes App"
                     matTooltipPosition="after" matTooltipShowDelay="500">
