@@ -1,35 +1,43 @@
 {
-	"variables": [],
 	"info": {
+		"_postman_id": "405266de-0efb-4b82-8570-d2cd6d72b8fd",
 		"name": "Notes App",
-		"_postman_id": "62c2aed2-01d0-6826-11c2-050c40a4cf92",
-		"description": "",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "User Register",
 			"request": {
-				"url": "http://localhost:3000/user",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"email\":\"waqqar@gmail.com\",\n\t\"password\":\"login@123\"\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "http://localhost:3000/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Login User",
 			"request": {
+				"method": "GET",
+				"header": [],
 				"url": {
 					"raw": "http://localhost:3000/user?email=waqqar@gmail.com&password=login@123",
 					"protocol": "http",
@@ -43,89 +51,112 @@
 					"query": [
 						{
 							"key": "email",
-							"value": "waqqar@gmail.com",
-							"equals": true,
-							"description": ""
+							"value": "waqqar@gmail.com"
 						},
 						{
 							"key": "password",
-							"value": "login@123",
-							"equals": true,
-							"description": ""
+							"value": "login@123"
 						}
-					],
-					"variable": []
-				},
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": ""
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Note Add",
 			"request": {
-				"url": "http://localhost:3000/note",
 				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"userID\":\"5def334291abdf2fd75042cf\",\n\t\"title\":\"Wakky's Another Note\",\n\t\"description\":\"Test Text\"\n}"
+					"raw": "{\n\t\"userID\":\"5dfe62cf9453041971e8ef62\",\n\t\"title\":\"Test Note 1\",\n\t\"description\":\"Test Description 1\"\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "http://localhost:3000/note",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"note"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Note Update",
 			"request": {
-				"url": "http://localhost:3000/note",
 				"method": "PATCH",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\t\n\t\"userID\":\"5def334291abdf2fd75042cf\",\n\t\"noteID\":\"5def3485408acb3028f1fe0f\",\n\t\"title\":\"Wakky's\",\n\t\"description\":\"Test Text\"\n}"
+					"raw": "{\t\n\t\"userID\":\"5dfe62cf9453041971e8ef62\",\n\t\"noteID\":\"5dfe640ee4c7b61a309701ac\",\n\t\"title\":\"Wakky's Note\",\n\t\"description\":\"Test Text\"\n}"
 				},
-				"description": ""
+				"url": {
+					"raw": "http://localhost:3000/note",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"note"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Note Delete",
 			"request": {
-				"url": "http://localhost:3000/note",
 				"method": "DELETE",
 				"header": [
 					{
 						"key": "Content-Type",
-						"value": "application/json",
-						"description": ""
+						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\t\n\t\"userID\":\"5def2ba16b802a2dfcb97a7a\",\n\t\"noteID\":\"5def2bfc6b802a2dfcb97a7c\"\n}"
-				},
-				"description": ""
+				"url": {
+					"raw": "http://localhost:3000/note?userID=5dfe62cf9453041971e8ef62&noteID=5dff34fb63852b11057514ac",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"note"
+					],
+					"query": [
+						{
+							"key": "userID",
+							"value": "5dfe62cf9453041971e8ef62"
+						},
+						{
+							"key": "noteID",
+							"value": "5dff34fb63852b11057514ac"
+						}
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Note View",
 			"request": {
+				"method": "GET",
+				"header": [],
 				"url": {
 					"raw": "http://localhost:3000/note?userID=5def2ba16b802a2dfcb97a7a&noteID=5def2bf46b802a2dfcb97a7b",
 					"protocol": "http",
@@ -139,31 +170,24 @@
 					"query": [
 						{
 							"key": "userID",
-							"value": "5def2ba16b802a2dfcb97a7a",
-							"equals": true,
-							"description": ""
+							"value": "5def2ba16b802a2dfcb97a7a"
 						},
 						{
 							"key": "noteID",
-							"value": "5def2bf46b802a2dfcb97a7b",
-							"equals": true,
-							"description": ""
+							"value": "5def2bf46b802a2dfcb97a7b"
 						}
-					],
-					"variable": []
-				},
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": ""
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Notes User View",
 			"request": {
+				"method": "GET",
+				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/notes?userID=5def334291abdf2fd75042cf",
+					"raw": "http://localhost:3000/notes?userID=5dfe62cf9453041971e8ef62",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -175,19 +199,13 @@
 					"query": [
 						{
 							"key": "userID",
-							"value": "5def334291abdf2fd75042cf",
-							"equals": true,
-							"description": ""
+							"value": "5dfe62cf9453041971e8ef62"
 						}
-					],
-					"variable": []
-				},
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": ""
+					]
+				}
 			},
 			"response": []
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
