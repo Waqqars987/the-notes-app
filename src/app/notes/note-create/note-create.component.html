@@ -9,7 +9,7 @@
             <mat-form-field floatLabel="auto" color="accent">
                 <mat-label>Title</mat-label>
                 <input matInput name="title" ngModel required #titleRef="ngModel">
-                <mat-hint align="end">Give your note a title</mat-hint>
+                <mat-hint align="end">Title your note</mat-hint>
             </mat-form-field>
             <mat-error *ngIf="titleRef.invalid && (titleRef.touched||titleRef.dirty) && 
             titleRef.errors.required">
@@ -30,14 +30,13 @@
         </div>
 
         <div style="text-align: center;">
-            <button color="primary" mat-flat-button [disabled]="isSaving||isSaved">
+            <button color="primary" mat-flat-button [disabled]="isSaving">
                 <mat-icon>save</mat-icon>
-                {{isSaving||isSaved?'':'Save'}}
+                {{isSaving||isSaved?'Saving...':'Save'}}
                 <mat-icon *ngIf="isSaving">
                     <mat-spinner color="accent" diameter="20">
                     </mat-spinner>
                 </mat-icon>
-                <mat-icon *ngIf="isSaved" color="accent">done</mat-icon>
             </button>
 
             <button type="button" color="warn" mat-flat-button [disabled]="isSaving" (click)="onClear()">

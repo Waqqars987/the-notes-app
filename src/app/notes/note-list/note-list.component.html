@@ -1,1 +1,17 @@
-<p>note-list works!</p>
+<div class="example-container">
+
+    <mat-toolbar role="heading">
+        <mat-icon color="primary">notes<span class="mat-display-1">Your Notes</span></mat-icon>
+    </mat-toolbar>
+
+    <app-loading-spinner class="spinner-center" *ngIf="isLoading"></app-loading-spinner>
+
+    <div *ngIf="!isLoading && notes.length===0" color="accent" class="mat-display-1">
+        You don't have any notes
+    </div>
+
+    <mat-accordion>
+        <app-note-item *ngFor="let note of notes;let i=index" [note]="note" [noteIndex]="i"></app-note-item>
+    </mat-accordion>
+
+</div>

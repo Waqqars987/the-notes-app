@@ -22,9 +22,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onLogout() {
-    let dialogRef = this.dialog.open(AlertComponent);
+    let dialogRef = this.dialog.open(AlertComponent, {
+      data:
+      {
+        confirmationMessage: "Do you want to logout?",
+        affirmative: "Stay logged in",
+        negative: "Log Out"
+      }
+    });
     dialogRef.afterClosed().subscribe(result => {
-      if (!JSON.parse(result)) {
+      if (JSON.parse(result)) {
         this.authService.logout();
       }
     });

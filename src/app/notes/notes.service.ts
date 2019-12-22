@@ -2,14 +2,15 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Note } from './notes.model';
 import { catchError, tap } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { throwError, Subject } from 'rxjs';
 
 export interface NoteResponseData {
   success: boolean,
   data: {
-    message: string,
+    message?: string,
     _id?: string,
-    lastEdited?: Date
+    lastEdited?: Date,
+    notes?: Note[]
   }
 }
 
@@ -21,21 +22,57 @@ export class NotesService {
   constructor(private http: HttpClient) { }
 
   private notes: Note[] = [];
-  
+  notesChanged = new Subject<Note[]>();
+
   addNote(note: Note) {
 
     let userData: { _id: string; email: string; } = JSON.parse(localStorage.getItem('userData'));
-    //this.notes.push(new Note())
-    this.http.post<NoteResponseData>("http://localhost:3000/note",
+    return this.http.post<NoteResponseData>("http://localhost:3000/note",
       {
-        _id: userData._id,
+        userID: userData._id,
         ...note
       })
       .pipe(
         catchError(this.handleError),
         tap(resData => {
-          console.log(resData)
-          console.log({...resData,...note})
+          this.notes.push(new Note(resData.data._id, note.title, note.description, resData.data.lastEdited));
+          this.notesChanged.next(this.notes.slice());
+        })
+      );
+  }
+
+  getUserNotes() {
+    let userData: { _id: string; email: string; } = JSON.parse(localStorage.getItem('userData'));
+    return this.http.get<NoteResponseData>(
+      'http://localhost:3000/notes',
+      {
+        params: {
+          userID: userData._id
+        }
+      })
+      .pipe(
+        catchError(this.handleError),
+        tap(resData => {
+          this.notes = resData.data.notes;
+          this.notesChanged.next(this.notes.slice());
+        })
+      );
+  }
+
+  deleteNote(noteIndex: number, noteID: string) {
+    let userData: { _id: string; email: string; } = JSON.parse(localStorage.getItem('userData'));
+    return this.http.delete<NoteResponseData>("http://localhost:3000/note",
+      {
+        params: {
+          userID: userData._id,
+          noteID: noteID
+        }
+      })
+      .pipe(
+        catchError(this.handleError),
+        tap(resData => {
+          this.notes.splice(noteIndex, 1);
+          this.notesChanged.next(this.notes.slice());
         })
       );
   }

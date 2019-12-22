@@ -1,9 +1,9 @@
-<mat-dialog-content>Do you want to logout?</mat-dialog-content>
+<mat-dialog-content>{{data.confirmationMessage}}</mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-flat-button color="primary" mat-dialog-close mat-dialog-close="true">
-        Stay Logged In
+    <button mat-flat-button color="primary" mat-dialog-close>
+        {{data.affirmative}}
     </button>
-    <button mat-raised-button color="warn" mat-dialog-close mat-dialog-close="false">
-        Log Out
+    <button mat-raised-button color="warn" mat-dialog-close mat-dialog-close="true">
+        {{data.negative}}
     </button>
 </mat-dialog-actions>

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MessageComponent } from 'src/app/shared/message/message.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { NotesService } from '../notes.service';
 
 @Component({
@@ -12,10 +12,9 @@ import { NotesService } from '../notes.service';
 export class NoteCreateComponent implements OnInit {
 
   isSaving = false;
-  isSaved = false;
   @ViewChild('noteRef', { static: false }) noteForm: NgForm;
 
-  constructor(private dialog: MatDialog,private notesService:NotesService) { }
+  constructor(private dialog: MatDialog, private notesService: NotesService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
   }
@@ -27,19 +26,22 @@ export class NoteCreateComponent implements OnInit {
       );
       return;
     }
-    this.notesService.addNote(noteForm.value);
+    this.isSaving = true;
+    this.notesService.addNote(noteForm.value).subscribe(
+      resData => {
+        this.isSaving = false;
+        this.snackBar.open(resData.data.message, null, { duration: 2000, panelClass: ['mat-toolbar', 'mat-accent'] });  
+      },
+      (errorMessage) => {
+        this.isSaving = false;
+        this.dialog.open(MessageComponent,
+          { data: { error: false, message: errorMessage } }
+        );
+      });
+      this.onClear();
   }
 
-  onClear(){
-    this.noteForm.reset();
+  onClear() {
+    this.noteForm.resetForm();
   }
-
-
-    // setTimeout(()=>{
-    //   this.isSaving=false;
-    //   this.isSaved=true;
-    //   setTimeout(()=>{
-    //     this.isSaved=false},1000)
-    // },2000)
-
 }

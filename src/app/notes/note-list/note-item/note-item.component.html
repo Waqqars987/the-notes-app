@@ -1,1 +1,25 @@
-<p>note-item works!</p>
+<br>
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title color="primary"><strong>{{note.title}}</strong></mat-panel-title>
+        <mat-panel-description><em>Last Edited: {{note.lastEdited | date:'dd/MM/yy, h:mm a'}}</em>
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+        <div>{{note.description}}</div>
+    </ng-template>
+    <mat-action-row>
+        <button mat-icon-button color="primary" (click)="onEdit()" *ngIf="!isEditMode">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="accent" (click)="onSave()" *ngIf="isEditMode">
+            <mat-icon>save</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="onDelete()" *ngIf="!isEditMode">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" *ngIf="isEditMode" (click)="onCancel()">
+            <mat-icon>cancel</mat-icon>
+        </button>
+    </mat-action-row>
+</mat-expansion-panel>

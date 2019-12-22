@@ -131,8 +131,8 @@ export const deleteNote = async (req, res) => {
 
     res.setHeader('Content-type', 'application/json');
     try {
-        var userID = isFieldAcceptable("User ID", req.body.userID);
-        var noteID = isFieldAcceptable("Note ID", req.body.noteID);
+        var userID = isFieldAcceptable("User ID", req.query.userID);
+        var noteID = isFieldAcceptable("Note ID", req.query.noteID);
     }
     catch (err) {
         console.error(err);
