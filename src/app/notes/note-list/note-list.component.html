@@ -1,13 +1,13 @@
 <div class="example-container">
 
     <mat-toolbar role="heading">
-        <mat-icon color="primary">notes<span class="mat-display-1">Your Notes</span></mat-icon>
+        <mat-icon color="primary">notes <span class="mat-display-1">Your Notes</span></mat-icon>
     </mat-toolbar>
 
     <app-loading-spinner class="spinner-center" *ngIf="isLoading"></app-loading-spinner>
 
-    <div *ngIf="!isLoading && notes.length===0" color="accent" class="mat-display-1">
-        You don't have any notes
+    <div *ngIf="!isLoading && notes.length===0" style="color: #ff4081;" class="mat-display-1">
+        You don't have any notes!
     </div>
 
     <mat-accordion>

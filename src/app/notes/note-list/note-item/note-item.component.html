@@ -1,19 +1,53 @@
 <br>
 <mat-expansion-panel>
     <mat-expansion-panel-header>
-        <mat-panel-title color="primary"><strong>{{note.title}}</strong></mat-panel-title>
-        <mat-panel-description><em>Last Edited: {{note.lastEdited | date:'dd/MM/yy, h:mm a'}}</em>
+        <mat-panel-title color="primary">
+            <strong *ngIf="!isEditMode">{{note.title}}</strong>
+            <strong *ngIf="isEditMode">Update Your Note</strong>
+        </mat-panel-title>
+        <mat-panel-description *ngIf="!isEditMode"><em>Edited: {{note.lastEdited | date:'dd/MM/yy, h:mm a'}}</em>
         </mat-panel-description>
     </mat-expansion-panel-header>
     <ng-template matExpansionPanelContent>
-        <div>{{note.description}}</div>
+        <div *ngIf="!isEditMode">{{note.description}}</div>
+        <form *ngIf="isEditMode" #updateNoteRef="ngForm" novalidate>
+            <div>
+                <mat-form-field floatLabel="auto" color="accent" appearance="fill">
+                    <mat-label>New Title</mat-label>
+                    <input matInput name="title" ngModel [(ngModel)]="note.title" required #titleRef="ngModel">
+                    <mat-hint align="end">Update your title</mat-hint>
+                </mat-form-field>
+                <mat-error *ngIf="titleRef.invalid && (titleRef.touched||titleRef.dirty) && 
+                titleRef.errors.required">
+                    A title is required
+                </mat-error>
+            </div>
+
+            <div>
+                <mat-form-field floatLabel="auto" color="accent" appearance="fill">
+                    <mat-label>New Description</mat-label>
+                    <textarea matInput name="description" [(ngModel)]="note.description" ngModel required
+                        #descriptionRef="ngModel"></textarea>
+                    <mat-hint align="end">Update your description</mat-hint>
+                </mat-form-field>
+                <mat-error *ngIf="descriptionRef.invalid && (descriptionRef.touched||descriptionRef.dirty) && 
+                descriptionRef.errors.required">
+                    A description is required
+                </mat-error>
+            </div>
+        </form>
     </ng-template>
     <mat-action-row>
         <button mat-icon-button color="primary" (click)="onEdit()" *ngIf="!isEditMode">
             <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="accent" (click)="onSave()" *ngIf="isEditMode">
+        <button mat-icon-button color="accent" (click)="onSave()" *ngIf="isEditMode && !isSaving">
             <mat-icon>save</mat-icon>
+        </button>
+        <button color="accent" mat-icon-button [disabled]="isSaving" *ngIf="isSaving">
+            <mat-icon>
+                <mat-spinner color="accent" diameter="20"></mat-spinner>
+            </mat-icon>
         </button>
         <button mat-icon-button color="warn" (click)="onDelete()" *ngIf="!isEditMode">
             <mat-icon>delete</mat-icon>

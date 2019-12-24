@@ -10,13 +10,13 @@ import { NotesComponent } from './notes/notes.component';
 import { NoteCreateComponent } from './notes/note-create/note-create.component';
 import { NoteListComponent } from './notes/note-list/note-list.component';
 import { NoteItemComponent } from './notes/note-list/note-item/note-item.component';
-import { NoteEditComponent } from './notes/note-list/note-edit/note-edit.component';
 import { AuthComponent } from './auth/auth.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AlertComponent } from './shared/alert/alert.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { MessageComponent } from './shared/message/message.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
 
 @NgModule({
   declarations: [
@@ -26,11 +26,11 @@ import { MessageComponent } from './shared/message/message.component';
     NoteCreateComponent,
     NoteListComponent,
     NoteItemComponent,
-    NoteEditComponent,
     AuthComponent,
     AlertComponent,
     LoadingSpinnerComponent,
-    MessageComponent
+    MessageComponent,
+    ErrorPageComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,7 @@
 <mat-toolbar color="primary" class="navbar">
-    <div>Notes</div>
+
+    <div routerLink="/" style="cursor: pointer;">Note Book</div>
+    
     <div>
         <button mat-mini-fab (click)="onLogout()" *ngIf="isAuthenticated" matTooltip="Logout"
             matTooltipPosition="after" matTooltipShowDelay="500">

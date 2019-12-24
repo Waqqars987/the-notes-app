@@ -30,7 +30,8 @@ export class NoteCreateComponent implements OnInit {
     this.notesService.addNote(noteForm.value).subscribe(
       resData => {
         this.isSaving = false;
-        this.snackBar.open(resData.data.message, null, { duration: 2000, panelClass: ['mat-toolbar', 'mat-accent'] });  
+        this.snackBar.open(resData.data.message, null, 
+          { duration: 2000, panelClass: ['mat-toolbar', 'mat-primary'] });  
       },
       (errorMessage) => {
         this.isSaving = false;

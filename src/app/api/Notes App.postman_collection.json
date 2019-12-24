@@ -20,12 +20,12 @@
 					"raw": "{\n\t\"email\":\"waqqar@gmail.com\",\n\t\"password\":\"login@123\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:3000/user",
+					"raw": "http://localhost:8080/user",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8080",
 					"path": [
 						"user"
 					]
@@ -39,12 +39,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/user?email=waqqar@gmail.com&password=login@123",
+					"raw": "http://localhost:8080/user?email=waqqar@gmail.com&password=login@123",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8080",
 					"path": [
 						"user"
 					],
@@ -77,12 +77,12 @@
 					"raw": "{\n\t\"userID\":\"5dfe62cf9453041971e8ef62\",\n\t\"title\":\"Test Note 1\",\n\t\"description\":\"Test Description 1\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:3000/note",
+					"raw": "http://localhost:8080/note",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8080",
 					"path": [
 						"note"
 					]
@@ -102,15 +102,15 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\t\n\t\"userID\":\"5dfe62cf9453041971e8ef62\",\n\t\"noteID\":\"5dfe640ee4c7b61a309701ac\",\n\t\"title\":\"Wakky's Note\",\n\t\"description\":\"Test Text\"\n}"
+					"raw": "{\t\n\t\"userID\":\"5dfe62cf9453041971e8ef62\",\n\t\"noteID\":\"5dffabd6fb9935415da6bbc3\",\n\t\"title\":\"Wakky's Note\",\n\t\"description\":\"Test Text\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:3000/note",
+					"raw": "http://localhost:8080/note",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8080",
 					"path": [
 						"note"
 					]
@@ -129,12 +129,12 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:3000/note?userID=5dfe62cf9453041971e8ef62&noteID=5dff34fb63852b11057514ac",
+					"raw": "http://localhost:8080/note?userID=5dfe62cf9453041971e8ef62&noteID=5dff34fb63852b11057514ac",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8080",
 					"path": [
 						"note"
 					],
@@ -158,12 +158,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/note?userID=5def2ba16b802a2dfcb97a7a&noteID=5def2bf46b802a2dfcb97a7b",
+					"raw": "http://localhost:8080/note?userID=5def2ba16b802a2dfcb97a7a&noteID=5def2bf46b802a2dfcb97a7b",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8080",
 					"path": [
 						"note"
 					],
@@ -187,12 +187,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/notes?userID=5dfe62cf9453041971e8ef62",
+					"raw": "http://localhost:8080/notes?userID=5dfe62cf9453041971e8ef62",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3000",
+					"port": "8080",
 					"path": [
 						"notes"
 					],

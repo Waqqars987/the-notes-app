@@ -59,6 +59,22 @@ export class NotesService {
       );
   }
 
+  updateNote(noteIndex: number, noteParams: any) {
+    let userData: { _id: string; email: string; } = JSON.parse(localStorage.getItem('userData'));
+    return this.http.patch<NoteResponseData>("http://localhost:8080/note",
+      {
+        userID: userData._id,
+        ...noteParams
+      })
+      .pipe(
+        catchError(this.handleError),
+        tap(resData => {
+          this.notes[noteIndex] = new Note(noteParams.noteID, noteParams.title, noteParams.description, resData.data.lastEdited);
+          this.notesChanged.next(this.notes.slice());
+        })
+      );
+  }
+
   deleteNote(noteIndex: number, noteID: string) {
     let userData: { _id: string; email: string; } = JSON.parse(localStorage.getItem('userData'));
     return this.http.delete<NoteResponseData>("http://localhost:8080/note",
