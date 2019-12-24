@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import 'dotenv/config';
 import { routes } from './src/routes/notesRoute'
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.DB_CONNECTION, {
