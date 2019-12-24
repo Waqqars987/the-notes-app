@@ -23,7 +23,7 @@ export class AuthService {
 
     signup(userData: { email: string, password: string }) {
         return this.http.post<AuthResponseData>(
-            'http://localhost:3000/user',
+            'http://localhost:8080/user',
             {
                 email: userData.email,
                 password: userData.password
@@ -38,7 +38,7 @@ export class AuthService {
 
     login(userData: { email: string, password: string }) {
         return this.http.get<AuthResponseData>(
-            'http://localhost:3000/user',
+            'http://localhost:8080/user',
             {
                 params: {
                     email: userData.email,

@@ -27,7 +27,7 @@ export class NotesService {
   addNote(note: Note) {
 
     let userData: { _id: string; email: string; } = JSON.parse(localStorage.getItem('userData'));
-    return this.http.post<NoteResponseData>("http://localhost:3000/note",
+    return this.http.post<NoteResponseData>("http://localhost:8080/note",
       {
         userID: userData._id,
         ...note
@@ -44,7 +44,7 @@ export class NotesService {
   getUserNotes() {
     let userData: { _id: string; email: string; } = JSON.parse(localStorage.getItem('userData'));
     return this.http.get<NoteResponseData>(
-      'http://localhost:3000/notes',
+      'http://localhost:8080/notes',
       {
         params: {
           userID: userData._id
@@ -61,7 +61,7 @@ export class NotesService {
 
   deleteNote(noteIndex: number, noteID: string) {
     let userData: { _id: string; email: string; } = JSON.parse(localStorage.getItem('userData'));
-    return this.http.delete<NoteResponseData>("http://localhost:3000/note",
+    return this.http.delete<NoteResponseData>("http://localhost:8080/note",
       {
         params: {
           userID: userData._id,
