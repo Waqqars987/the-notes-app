@@ -32,7 +32,7 @@
         <div style="text-align: center;">
             <button color="primary" mat-flat-button [disabled]="isSaving">
                 <mat-icon>save</mat-icon>
-                {{isSaving||isSaved?'Saving...':'Save'}}
+                {{isSaving?'Saving...':'Save'}}
                 <mat-icon *ngIf="isSaving">
                     <mat-spinner color="accent" diameter="20">
                     </mat-spinner>
