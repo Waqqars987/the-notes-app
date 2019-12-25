@@ -2,12 +2,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import 'dotenv/config';
-import { routes } from './src/routes/notesRoute'
+import { routes } from './routes/notesRoute'
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.DB_CONNECTION, {
+mongoose.connect(process.env.MONGODB_URI, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
