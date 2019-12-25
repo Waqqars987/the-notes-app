@@ -1,5 +1,5 @@
 <br>
-<mat-expansion-panel>
+<mat-expansion-panel (closed)="isEditMode=false">
     <mat-expansion-panel-header>
         <mat-panel-title color="primary">
             <strong *ngIf="!isEditMode">{{note.title}}</strong>
@@ -12,7 +12,7 @@
         <div *ngIf="!isEditMode">{{note.description}}</div>
         <form *ngIf="isEditMode" #updateNoteRef="ngForm" novalidate>
             <div>
-                <mat-form-field floatLabel="auto" color="accent" appearance="fill">
+                <mat-form-field floatLabel="auto" color="accent" appearance="outline">
                     <mat-label>New Title</mat-label>
                     <input matInput name="title" ngModel [(ngModel)]="note.title" required #titleRef="ngModel">
                     <mat-hint align="end">Update your title</mat-hint>
@@ -24,7 +24,7 @@
             </div>
 
             <div>
-                <mat-form-field floatLabel="auto" color="accent" appearance="fill">
+                <mat-form-field floatLabel="auto" color="accent" appearance="outline">
                     <mat-label>New Description</mat-label>
                     <textarea matInput name="description" [(ngModel)]="note.description" ngModel required
                         #descriptionRef="ngModel"></textarea>

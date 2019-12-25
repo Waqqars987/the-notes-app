@@ -41,7 +41,6 @@ import { ErrorPageComponent } from './error-page/error-page.component';
     MaterialModule,
     HttpClientModule
   ],
-  providers: [],
   bootstrap: [AppComponent],
   entryComponents: [AlertComponent,MessageComponent]
 })
