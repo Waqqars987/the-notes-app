@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -23,7 +24,7 @@ export class AuthService {
 
     signup(userData: { email: string, password: string }) {
         return this.http.post<AuthResponseData>(
-            'http://localhost:8080/user',
+            environment.herokuServerUrl + 'user',
             {
                 email: userData.email,
                 password: userData.password
@@ -38,7 +39,7 @@ export class AuthService {
 
     login(userData: { email: string, password: string }) {
         return this.http.get<AuthResponseData>(
-            'http://localhost:8080/user',
+            environment.herokuServerUrl + 'user',
             {
                 params: {
                     email: userData.email,

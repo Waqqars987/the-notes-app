@@ -1,5 +1,6 @@
 'use strict';
 import {
+    checkServer,
     registerUser,
     loginUser,
     addNote,
@@ -10,6 +11,10 @@ import {
 } from '../controllers/notesController'
 
 export const routes = (app) => {
+
+    app.route('/')
+        //check server
+        .get(checkServer)
 
     app.route('/user')
         //register a new user

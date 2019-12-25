@@ -4,6 +4,12 @@ import Users from '../models/notesModel';
 import { isFieldAcceptable } from '../utilities/inputValidator';
 import { Response } from '../models/responseModel';
 
+export const checkServer = (req, res) => {
+    
+    res.setHeader('Content-type', 'application/json');
+    res.send(new Response(true, { message: "Node Server is running..." }));
+};
+
 export const registerUser = async (req, res) => {
 
     res.setHeader('Content-type', 'application/json');

@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Note } from './notes.model';
@@ -27,7 +28,7 @@ export class NotesService {
   addNote(note: Note) {
 
     let userData: { _id: string; email: string; } = JSON.parse(localStorage.getItem('userData'));
-    return this.http.post<NoteResponseData>("http://localhost:8080/note",
+    return this.http.post<NoteResponseData>(environment.herokuServerUrl + "note",
       {
         userID: userData._id,
         ...note
@@ -44,7 +45,7 @@ export class NotesService {
   getUserNotes() {
     let userData: { _id: string; email: string; } = JSON.parse(localStorage.getItem('userData'));
     return this.http.get<NoteResponseData>(
-      'http://localhost:8080/notes',
+      environment.herokuServerUrl + 'notes',
       {
         params: {
           userID: userData._id
@@ -61,7 +62,7 @@ export class NotesService {
 
   updateNote(noteIndex: number, noteParams: any) {
     let userData: { _id: string; email: string; } = JSON.parse(localStorage.getItem('userData'));
-    return this.http.patch<NoteResponseData>("http://localhost:8080/note",
+    return this.http.patch<NoteResponseData>(environment.herokuServerUrl + "note",
       {
         userID: userData._id,
         ...noteParams
@@ -77,7 +78,7 @@ export class NotesService {
 
   deleteNote(noteIndex: number, noteID: string) {
     let userData: { _id: string; email: string; } = JSON.parse(localStorage.getItem('userData'));
-    return this.http.delete<NoteResponseData>("http://localhost:8080/note",
+    return this.http.delete<NoteResponseData>(environment.herokuServerUrl + "note",
       {
         params: {
           userID: userData._id,
