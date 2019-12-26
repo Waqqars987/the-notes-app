@@ -1,11 +1,13 @@
 'use strict';
 import mongoose from 'mongoose';
 import Users from '../models/notesModel';
-import { isFieldAcceptable } from '../utilities/inputValidator';
 import { Response } from '../models/responseModel';
+import { isFieldAcceptable } from '../utilities/inputValidator';
+import { hashPassword, checkPassword } from '../utilities/hash';
+// import { encrypt, decrypt } from '../utilities/encryption';
 
 export const checkServer = (req, res) => {
-    
+
     res.setHeader('Content-type', 'application/json');
     res.send(new Response(true, { message: "Node Server is running..." }));
 };
@@ -15,7 +17,7 @@ export const registerUser = async (req, res) => {
     res.setHeader('Content-type', 'application/json');
     try {
         var email = isFieldAcceptable("email", req.body.email).toLowerCase();
-        var password = isFieldAcceptable("password", req.body.password);
+        var password = await hashPassword(isFieldAcceptable("password", req.body.password));
     }
     catch (err) {
         console.error(err);
@@ -30,7 +32,7 @@ export const registerUser = async (req, res) => {
         res.send(new Response(true, { user: { _id: user._id, emailID: user.emailID } }));
     } catch (err) {
         console.error(err);
-        res.status(406).send(new Response(false, { message: "Could Not Register User, Email might be already registered!" }));
+        res.status(406).send(new Response(false, { message: "Could Not Register User, Email already in use!" }));
     }
 };
 
@@ -47,14 +49,20 @@ export const loginUser = async (req, res) => {
     }
     try {
         const user = await Users.findOne(
-            { emailID: email, password: password },
-            { emailID: true }
+            { emailID: email },
+            { emailID: true, password: true }
         );
         if (user === null) {
-            return res.status(404).send(new Response(false, { message: "Incorrect Email ID or Password!" }));
+            return res.status(404).send(new Response(false, { message: "Incorrect Email ID!" }));
         }
         else {
-            res.send(new Response(true, { user: user }));
+            let result = await checkPassword(password, user.password);
+            if (!result) {
+                return res.status(401).send(new Response(false, { message: "Incorrect Password!" }));
+            }
+            else {
+                res.send(new Response(true, { user: { _id: user._id, emailID: user.emailID } }));
+            }
         }
     } catch (err) {
         console.error(err);
@@ -87,10 +95,10 @@ export const addNote = async (req, res) => {
             { $push: { notes: note } }
         );
         res.send(new Response(true,
-            { message: "Note Added Successfully!", _id: newId, lastEdited: note.lastEdited }))
+            { message: "Note Added Successfully!", _id: newId, lastEdited: note.lastEdited }));
     } catch (err) {
         console.error(err);
-        res.status(400).send(new Response(false, "Could Not Add Note, check User ID!"))
+        res.status(400).send(new Response(false, "Could Not Add Note, check User ID!"));
     }
 };
 
@@ -192,7 +200,7 @@ export const viewNote = async (req, res) => {
             return res.status(404).send(new Response(false, { message: "Incorrect Note ID!" }));
         }
         else {
-            res.send(new Response(true, { note: result.notes[0] }));
+            res.send(new Response(true, result.notes[0]));
         }
     } catch (err) {
         console.error(err);
