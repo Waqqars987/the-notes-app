@@ -1,10 +1,12 @@
 'use strict';
 import mongoose from 'mongoose';
 import Users from '../models/notesModel';
+import Cryptr from 'cryptr';
 import { Response } from '../models/responseModel';
 import { isFieldAcceptable } from '../utilities/inputValidator';
 import { hashPassword, checkPassword } from '../utilities/hash';
-// import { encrypt, decrypt } from '../utilities/encryption';
+
+const cryptr = new Cryptr(process.env.ENCRYPTION_KEY);
 
 export const checkServer = (req, res) => {
 
@@ -86,8 +88,8 @@ export const addNote = async (req, res) => {
         const newId = new mongoose.Types.ObjectId();
         const note = {
             _id: newId,
-            title: title,
-            description: description,
+            title: cryptr.encrypt(title),
+            description: cryptr.encrypt(description),
             lastEdited: Date.now()
         };
         const result = await Users.updateOne(
@@ -121,8 +123,8 @@ export const updateNote = async (req, res) => {
             { "_id": userID, "notes._id": noteID },
             {
                 "$set": {
-                    "notes.$.title": title,
-                    "notes.$.description": description,
+                    "notes.$.title": cryptr.encrypt(title),
+                    "notes.$.description": cryptr.encrypt(description),
                     "notes.$.updated": lastEdited
                 }
             }
@@ -200,6 +202,8 @@ export const viewNote = async (req, res) => {
             return res.status(404).send(new Response(false, { message: "Incorrect Note ID!" }));
         }
         else {
+            result.notes[0].title = cryptr.decrypt(result.notes[0].title);
+            result.notes[0].description = cryptr.decrypt(result.notes[0].description);
             res.send(new Response(true, result.notes[0]));
         }
     } catch (err) {
@@ -227,6 +231,10 @@ export const viewUserNotes = async (req, res) => {
             return res.status(404).send(new Response(false, { message: "No Notes Found for the given User ID!" }));
         }
         else {
+            for (let index = 0; index < result.notes.length; index++) {
+                result.notes[index].title = cryptr.decrypt(result.notes[index].title);
+                result.notes[index].description = cryptr.decrypt(result.notes[index].description);
+            }
             res.send(new Response(true, { notes: result.notes }));
         }
     } catch (err) {
