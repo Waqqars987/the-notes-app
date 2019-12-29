@@ -1,12 +1,10 @@
 'use strict';
 import mongoose from 'mongoose';
 import Users from '../models/notesModel';
-import Cryptr from 'cryptr';
 import { Response } from '../models/responseModel';
 import { isFieldAcceptable } from '../utilities/inputValidator';
 import { hashPassword, checkPassword } from '../utilities/hash';
-
-const cryptr = new Cryptr(process.env.ENCRYPTION_KEY);
+import { encryptData, decryptData } from "../utilities/encryption";
 
 export const checkServer = (req, res) => {
 
@@ -88,16 +86,17 @@ export const addNote = async (req, res) => {
         const newId = new mongoose.Types.ObjectId();
         const note = {
             _id: newId,
-            title: cryptr.encrypt(title),
-            description: cryptr.encrypt(description),
+            title: encryptData(title),
+            description: encryptData(description),
             lastEdited: Date.now()
         };
         const result = await Users.updateOne(
             { _id: userID },
             { $push: { notes: note } }
         );
+        let notesCount = (await Users.findOne({ _id: userID }, { notes: true })).notes.length;
         res.send(new Response(true,
-            { message: "Note Added Successfully!", _id: newId, lastEdited: note.lastEdited }));
+            { message: "Note Added Successfully!", _id: newId, lastEdited: note.lastEdited, maxNotes: notesCount }));
     } catch (err) {
         console.error(err);
         res.status(400).send(new Response(false, "Could Not Add Note, check User ID!"));
@@ -123,15 +122,16 @@ export const updateNote = async (req, res) => {
             { "_id": userID, "notes._id": noteID },
             {
                 "$set": {
-                    "notes.$.title": cryptr.encrypt(title),
-                    "notes.$.description": cryptr.encrypt(description),
+                    "notes.$.title": encryptData(title),
+                    "notes.$.description": encryptData(description),
                     "notes.$.updated": lastEdited
                 }
             }
         );
         if (result.nModified > 0) {
+            let notesCount = (await Users.findOne({ _id: userID }, { notes: true })).notes.length;
             res.send(new Response(true,
-                { message: "Note Updated Successfully!", _id: noteID, lastEdited: lastEdited }));
+                { message: "Note Updated Successfully!", _id: noteID, lastEdited: lastEdited, maxNotes: notesCount }));
         }
         else {
             res.status(404).send(new Response(false, { message: "Incorrect Note/User ID!" }));
@@ -160,7 +160,8 @@ export const deleteNote = async (req, res) => {
             { $pull: { "notes": { "_id": noteID } } },
         );
         if (result.nModified > 0) {
-            res.send(new Response(true, { message: "Note Deleted Successfully!" }))
+            let notesCount = (await Users.findOne({ _id: userID }, { notes: true })).notes.length;
+            res.send(new Response(true, { message: "Note Deleted Successfully!", maxNotes: notesCount }))
         }
         else {
             res.status(404).send(new Response(false, { message: "Incorrect Note/User ID!" }))
@@ -202,8 +203,8 @@ export const viewNote = async (req, res) => {
             return res.status(404).send(new Response(false, { message: "Incorrect Note ID!" }));
         }
         else {
-            result.notes[0].title = cryptr.decrypt(result.notes[0].title);
-            result.notes[0].description = cryptr.decrypt(result.notes[0].description);
+            result.notes[0].title = decryptData(result.notes[0].title);
+            result.notes[0].description = decryptData(result.notes[0].description);
             res.send(new Response(true, result.notes[0]));
         }
     } catch (err) {
@@ -217,25 +218,34 @@ export const viewUserNotes = async (req, res) => {
     res.setHeader('Content-type', 'application/json');
     try {
         var userID = isFieldAcceptable("User ID", req.query.userID);
+        var pageSize = +req.query.pageSize;
+        var currentPage = +req.query.currentPage;
     }
     catch (err) {
         console.error(err);
         return res.status(400).send(new Response(false, err.toString().split(":")[1].trim()));
     }
     try {
-        const result = await Users.findOne(
-            { _id: userID },
-            { notes: true }
-        );
+        let userNotesQuery = Users.findOne({ _id: userID }, { notes: true });
+        var notesCount = (await userNotesQuery).notes.length;
+        //Pagination Query
+        if (pageSize && currentPage) {
+            let skip = pageSize * (currentPage - 1);
+            let limit = pageSize;
+            userNotesQuery = Users.findOne({ _id: userID }, {
+                notes: { $slice: [skip, limit] }
+            });
+        }
+        const result = await userNotesQuery;
         if (result === null) {
             return res.status(404).send(new Response(false, { message: "No Notes Found for the given User ID!" }));
         }
         else {
             for (let index = 0; index < result.notes.length; index++) {
-                result.notes[index].title = cryptr.decrypt(result.notes[index].title);
-                result.notes[index].description = cryptr.decrypt(result.notes[index].description);
+                result.notes[index].title = decryptData(result.notes[index].title);
+                result.notes[index].description = decryptData(result.notes[index].description);
             }
-            res.send(new Response(true, { notes: result.notes }));
+            res.send(new Response(true, { notes: result.notes, maxNotes: notesCount }));
         }
     } catch (err) {
         console.error(err);

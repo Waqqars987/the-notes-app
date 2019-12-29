@@ -15,9 +15,12 @@ export class NoteItemComponent implements OnInit {
 
   @Input() note: Note;
   @Input() noteIndex: number;
+  @Input() currentPage: number;
+  @Input() notesPerPage: number
   @ViewChild('updateNoteRef', { static: false }) updateNoteForm: NgForm;
   isEditMode = false;
   isSaving = false;
+  isDeleting = false;
 
   constructor(private dialog: MatDialog, private notesService: NotesService, private snackBar: MatSnackBar) { }
 
@@ -63,10 +66,12 @@ export class NoteItemComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (JSON.parse(result)) {
-        this.notesService.deleteNote(this.noteIndex, this.note._id).subscribe(
+        this.isDeleting = true;
+        this.notesService.deleteNote(this.note._id, this.notesPerPage, this.currentPage).subscribe(
           resData => {
+            this.isDeleting = false;
             this.snackBar.open(resData.data.message, null,
-              { duration: 2000, panelClass: ['mat-toolbar', 'mat-primary'] });
+              { duration: 3000, panelClass: ['mat-toolbar', 'mat-primary'] });
           },
           errorMessage => {
             this.dialog.open(MessageComponent,
@@ -81,5 +86,4 @@ export class NoteItemComponent implements OnInit {
   onCancel() {
     this.isEditMode = false;
   }
-
 }

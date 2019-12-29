@@ -11,8 +11,14 @@
         You don't have any notes!
     </div>
 
-    <mat-accordion>
-        <app-note-item *ngFor="let note of notes;let i=index" [note]="note" [noteIndex]="i"></app-note-item>
+    <mat-paginator *ngIf="totalNotes>pageSizeOptions[0]" [length]="totalNotes" [pageSize]="notesPerPage"
+        [pageSizeOptions]="pageSizeOptions" (page)="onChangePage($event)">
+    </mat-paginator>
+
+    <mat-accordion *ngIf="!isLoading && totalNotes>0">
+        <app-note-item *ngFor="let note of notes;let i=index" [note]="note" [noteIndex]="i" [currentPage]="currentPage"
+            [notesPerPage]="notesPerPage">
+        </app-note-item>
     </mat-accordion>
 
 </div>

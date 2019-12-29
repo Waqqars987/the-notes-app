@@ -38,18 +38,19 @@
         </form>
     </ng-template>
     <mat-action-row>
-        <button mat-icon-button color="primary" (click)="onEdit()" *ngIf="!isEditMode">
+        <button mat-icon-button color="primary" (click)="onEdit()" *ngIf="!isEditMode && !isDeleting">
             <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button color="accent" (click)="onSave()" *ngIf="isEditMode && !isSaving">
             <mat-icon>save</mat-icon>
         </button>
-        <button color="accent" mat-icon-button [disabled]="isSaving" *ngIf="isSaving">
+        <button color="isSaving?accent:warn" mat-icon-button [disabled]="isSaving||isDeleting"
+            *ngIf="isSaving||isDeleting">
             <mat-icon>
                 <mat-spinner color="accent" diameter="20"></mat-spinner>
             </mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="onDelete()" *ngIf="!isEditMode">
+        <button mat-icon-button color="warn" (click)="onDelete()" *ngIf="!isEditMode && !isDeleting">
             <mat-icon>delete</mat-icon>
         </button>
         <button mat-icon-button color="primary" *ngIf="isEditMode" (click)="onCancel()">

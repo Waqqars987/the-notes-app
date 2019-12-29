@@ -12,6 +12,7 @@ export interface NoteResponseData {
     _id?: string,
     lastEdited?: Date,
     notes?: Note[]
+    maxNotes?: number
   }
 }
 
@@ -23,7 +24,7 @@ export class NotesService {
   constructor(private http: HttpClient) { }
 
   private notes: Note[] = [];
-  notesChanged = new Subject<Note[]>();
+  notesChanged = new Subject<{ notes: Note[], notesCount: number }>();
 
   addNote(note: Note) {
 
@@ -37,25 +38,45 @@ export class NotesService {
         catchError(this.handleError),
         tap(resData => {
           this.notes.push(new Note(resData.data._id, note.title, note.description, resData.data.lastEdited));
-          this.notesChanged.next(this.notes.slice());
+          this.notesChanged.next({ notes: this.notes.slice(), notesCount: resData.data.maxNotes });
         })
       );
   }
 
-  getUserNotes() {
+  // getUserNotes() {
+  //   let userData: { _id: string; email: string; } = JSON.parse(localStorage.getItem('userData'));
+  //   return this.http.get<NoteResponseData>(
+  //     environment.herokuServerUrl + 'notes',
+  //     {
+  //       params: {
+  //         userID: userData._id
+  //       }
+  //     })
+  //     .pipe(
+  //       catchError(this.handleError),
+  //       tap(resData => {
+  //         this.notes = resData.data.notes;
+  //         this.notesChanged.next(this.notes.slice());
+  //       })
+  //     );
+  // }
+
+  getUserNotes(notesPerPage: number, currentPage: number) {
     let userData: { _id: string; email: string; } = JSON.parse(localStorage.getItem('userData'));
     return this.http.get<NoteResponseData>(
       environment.herokuServerUrl + 'notes',
       {
         params: {
-          userID: userData._id
+          userID: userData._id,
+          pageSize: notesPerPage.toString(),
+          currentPage: currentPage.toString(),
         }
       })
       .pipe(
         catchError(this.handleError),
         tap(resData => {
           this.notes = resData.data.notes;
-          this.notesChanged.next(this.notes.slice());
+          this.notesChanged.next({ notes: this.notes.slice(), notesCount: resData.data.maxNotes });
         })
       );
   }
@@ -71,12 +92,12 @@ export class NotesService {
         catchError(this.handleError),
         tap(resData => {
           this.notes[noteIndex] = new Note(noteParams.noteID, noteParams.title, noteParams.description, resData.data.lastEdited);
-          this.notesChanged.next(this.notes.slice());
+          this.notesChanged.next({ notes: this.notes.slice(), notesCount: resData.data.maxNotes });
         })
       );
   }
 
-  deleteNote(noteIndex: number, noteID: string) {
+  deleteNote(noteID: string, notesPerPage: number, currentPage: number) {
     let userData: { _id: string; email: string; } = JSON.parse(localStorage.getItem('userData'));
     return this.http.delete<NoteResponseData>(environment.herokuServerUrl + "note",
       {
@@ -88,14 +109,12 @@ export class NotesService {
       .pipe(
         catchError(this.handleError),
         tap(resData => {
-          this.notes.splice(noteIndex, 1);
-          this.notesChanged.next(this.notes.slice());
+          this.getUserNotes(notesPerPage,currentPage).subscribe();
         })
       );
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-
     let errorMessage = 'An unknown error occurred!';
     if (!errorRes.error || !errorRes.error.data) {
       return throwError(errorMessage);
