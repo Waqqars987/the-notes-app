@@ -10,3 +10,7 @@ br {
 mat-form-field {
     width: 100%;
 }
+
+.format {
+    white-space: pre-wrap;
+}

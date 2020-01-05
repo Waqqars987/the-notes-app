@@ -9,7 +9,7 @@
         </mat-panel-description>
     </mat-expansion-panel-header>
     <ng-template matExpansionPanelContent>
-        <div *ngIf="!isEditMode">{{note.description}}</div>
+        <div class="format" *ngIf="!isEditMode">{{note.description}}</div>
         <form *ngIf="isEditMode" #updateNoteRef="ngForm" novalidate>
             <div>
                 <mat-form-field floatLabel="auto" color="accent" appearance="outline">
