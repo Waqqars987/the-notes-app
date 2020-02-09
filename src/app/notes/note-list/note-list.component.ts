@@ -3,7 +3,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Note } from '../notes.model';
 import { NotesService } from '../notes.service';
 import { MessageComponent } from 'src/app/shared/message/message.component';
-import { MatDialog, PageEvent } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-note-list',

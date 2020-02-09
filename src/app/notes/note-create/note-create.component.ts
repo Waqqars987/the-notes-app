@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MessageComponent } from 'src/app/shared/message/message.component';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotesService } from '../notes.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { NotesService } from '../notes.service';
 export class NoteCreateComponent implements OnInit {
 
   isSaving = false;
-  @ViewChild('noteRef', { static: false }) noteForm: NgForm;
+  @ViewChild('noteRef') noteForm: NgForm;
 
   constructor(private dialog: MatDialog, private notesService: NotesService, private snackBar: MatSnackBar) { }
 

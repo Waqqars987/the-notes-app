@@ -2,7 +2,7 @@ import { AlertComponent } from './../shared/alert/alert.component';
 import { AuthService } from './../auth/auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-header',

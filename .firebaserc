@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "note-book-waqqar"
+  },
+  "targets": {
+    "note-book-waqqar": {
+      "hosting": {
+        "notes-app": [
+          "note-book-waqqar"
+        ]
+      }
+    }
   }
 }

@@ -1,4 +1,5 @@
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Note } from './../../notes.model';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { NotesService } from '../../notes.service';
@@ -17,7 +18,7 @@ export class NoteItemComponent implements OnInit {
   @Input() noteIndex: number;
   @Input() currentPage: number;
   @Input() notesPerPage: number
-  @ViewChild('updateNoteRef', { static: false }) updateNoteForm: NgForm;
+  @ViewChild('updateNoteRef') updateNoteForm: NgForm;
   isEditMode = false;
   isSaving = false;
   isDeleting = false;
