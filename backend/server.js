@@ -6,14 +6,23 @@ import { routes } from './routes/notesRoute'
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI, {
+const connectionOptions = {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
     keepAlive: 300000,
     connectTimeoutMS: 30000
-});
+};
+
+async function connectToDB() {
+    try {
+        await mongoose.connect(process.env.MONGODB_URI, connectionOptions);
+        console.log(`Successfully Connected to DB!`);
+    } catch (err) {
+        console.log(`Error Connecting to DB!    ${err}`);
+    }
+}
+connectToDB();
 
 app.set("json spaces", 0);
 app.use(express.urlencoded({ extended: true }));
