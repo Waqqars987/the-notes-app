@@ -7,56 +7,54 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
-  selector: 'app-note-list',
-  templateUrl: './note-list.component.html',
-  styleUrls: ['./note-list.component.css']
+	selector: 'app-note-list',
+	templateUrl: './note-list.component.html',
+	styleUrls: [ './note-list.component.css' ]
 })
 export class NoteListComponent implements OnInit, OnDestroy {
+	isLoading = false;
+	notes: Note[] = [];
+	totalNotes: number;
+	notesPerPage = 5;
+	currentPage = 1;
+	pageSizeOptions = [ 5, 10, 20 ];
+	subscription: Subscription;
 
-  isLoading = false;
-  notes: Note[] = [];
-  totalNotes: number;
-  notesPerPage = 5;
-  currentPage = 1;
-  pageSizeOptions = [5, 10, 20];
-  subscription: Subscription;
+	constructor (private notesService: NotesService, private dialog: MatDialog) {}
 
-  constructor(private notesService: NotesService, private dialog: MatDialog) { }
+	ngOnInit () {
+		this.subscription = this.notesService.notesChanged.subscribe(
+			(notesData: { notes: Note[]; notesCount: number }) => {
+				this.notes = notesData.notes;
+				this.totalNotes = notesData.notesCount;
+			}
+		);
+		this.fetchNotes();
+	}
 
-  ngOnInit() {
+	onChangePage (pageData: PageEvent) {
+		this.currentPage = pageData.pageIndex + 1;
+		this.notesPerPage = pageData.pageSize;
+		this.fetchNotes();
+	}
 
-    this.subscription = this.notesService.notesChanged.subscribe(
-      (notesData: { notes: Note[], notesCount: number }) => {
-        this.notes = notesData.notes;
-        this.totalNotes = notesData.notesCount;
-      });
+	ngOnDestroy () {
+		this.subscription.unsubscribe();
+	}
 
-    this.fetchNotes();
-  }
-
-  onChangePage(pageData: PageEvent) {
-    this.currentPage = pageData.pageIndex + 1;
-    this.notesPerPage = pageData.pageSize;
-    this.fetchNotes();
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
-  private fetchNotes() {
-    this.isLoading = true;
-    this.notesService.getUserNotes(this.notesPerPage, this.currentPage).subscribe(
-      (resData) => {
-        this.isLoading = false;
-        this.notes = resData.data.notes;
-        this.totalNotes = resData.data.maxNotes;
-      },
-      (errorMessage) => {
-        this.isLoading = false;
-        this.dialog.open(MessageComponent,
-          { data: { error: false, message: errorMessage } }
-        );
-      });
-  }
+	private fetchNotes () {
+		this.isLoading = true;
+		this.notesService.updatePaginatorParams(this.notesPerPage, this.currentPage);
+		this.notesService.getUserNotes(this.notesPerPage, this.currentPage).subscribe(
+			(resData) => {
+				this.isLoading = false;
+				this.notes = resData.data.notes;
+				this.totalNotes = resData.data.maxNotes;
+			},
+			(errorMessage) => {
+				this.isLoading = false;
+				this.dialog.open(MessageComponent, { data: { error: false, message: errorMessage } });
+			}
+		);
+	}
 }

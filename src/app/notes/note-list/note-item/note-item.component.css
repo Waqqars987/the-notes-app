@@ -1,16 +1,16 @@
 mat-expansion-panel-header {
-    background: mistyrose;
+	background: mistyrose;
 }
 
 br {
-    display: block;
-    margin: 5px 0;
+	display: block;
+	margin: 5px 0;
 }
 
 mat-form-field {
-    width: 100%;
+	width: 100%;
 }
 
 .format {
-    white-space: pre-wrap;
+	white-space: pre-wrap;
 }

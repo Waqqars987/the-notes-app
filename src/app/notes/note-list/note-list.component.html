@@ -4,21 +4,23 @@
         <mat-icon color="primary">notes <span class="mat-display-1">Your Notes</span></mat-icon>
     </mat-toolbar>
 
-    <app-loading-spinner class="spinner-center" *ngIf="isLoading"></app-loading-spinner>
+    <div>
+        <br>
+        <app-loading-spinner class="spinner-center" *ngIf="isLoading"></app-loading-spinner>
+    </div>
 
-    <div *ngIf="!isLoading && notes.length===0" style="color: #ff4081;" class="mat-display-1">
+    <div *ngIf="!isLoading && totalNotes===0" style="color: #ff4081;" class="mat-display-1">
         <br>
         You don't have any notes!
     </div>
 
+    <mat-accordion *ngIf="!isLoading && totalNotes>0">
+        <app-note-item *ngFor="let note of notes;let i=index" [note]="note" [noteIndex]="i">
+        </app-note-item>
+    </mat-accordion>
+
     <mat-paginator *ngIf="totalNotes>pageSizeOptions[0]" [length]="totalNotes" [pageSize]="notesPerPage"
         [pageSizeOptions]="pageSizeOptions" (page)="onChangePage($event)">
     </mat-paginator>
-
-    <mat-accordion *ngIf="!isLoading && totalNotes>0">
-        <app-note-item *ngFor="let note of notes;let i=index" [note]="note" [noteIndex]="i" [currentPage]="currentPage"
-            [notesPerPage]="notesPerPage">
-        </app-note-item>
-    </mat-accordion>
 
 </div>
