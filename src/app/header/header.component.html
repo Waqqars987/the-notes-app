@@ -1,11 +1,14 @@
 <mat-toolbar color="primary" class="navbar">
 
-    <div routerLink="/" style="cursor: pointer;" matTooltip="Home"
-    matTooltipPosition="after" matTooltipShowDelay="500">Note Book</div>
-    
+    <div routerLink="/" style="cursor: pointer;" matTooltip="Home" matTooltipPosition="after" matTooltipShowDelay="500">
+        Note Book
+        <div class="mat-caption" style="color: mistyrose;">Secured by AES-128
+        </div>
+    </div>
+
     <div>
-        <button mat-mini-fab (click)="onLogout()" *ngIf="isAuthenticated" matTooltip="Logout"
-            matTooltipPosition="after" matTooltipShowDelay="500">
+        <button mat-mini-fab (click)="onLogout()" *ngIf="isAuthenticated" matTooltip="Logout" matTooltipPosition="after"
+            matTooltipShowDelay="500">
             <mat-icon>power_settings_new</mat-icon>
         </button>
     </div>
