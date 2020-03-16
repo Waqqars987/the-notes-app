@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d82c7365-469d-495a-8b84-8b83b372919c",
+		"_postman_id": "405266de-0efb-4b82-8570-d2cd6d72b8fd",
 		"name": "Notes App",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -17,7 +17,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\":\"waqqars987@gmail.com\",\n\t\"password\":\"login@123\"\n}"
+					"raw": "{\n\t\"email\":\"waqqar@gmail.com\",\n\t\"password\":\"login@123\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/user",
@@ -39,7 +39,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/user?email=Waqqars987@gmail.com&password=login@123",
+					"raw": "http://localhost:8080/user?email=waqqar@gmail.com&password=login@123",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -51,7 +51,7 @@
 					"query": [
 						{
 							"key": "email",
-							"value": "Waqqars987@gmail.com"
+							"value": "waqqar@gmail.com"
 						},
 						{
 							"key": "password",
@@ -74,7 +74,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"userID\":\"5e062d70a4aa2f0f3b25d53e\",\n\t\"title\":\"Test Note 6\",\n\t\"description\":\"Test Description 2\"\n}"
+					"raw": "{\n\t\"userID\":\"5dfe62cf9453041971e8ef62\",\n\t\"title\":\"Test Note 1\",\n\t\"description\":\"Test Description 1\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/note",
@@ -102,7 +102,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\t\n\t\"userID\":\"5e062d70a4aa2f0f3b25d53e\",\n\t\"noteID\":\"5e087fe473d25113dee6fff7\",\n\t\"title\":\"Waqqar's Note\",\n\t\"description\":\"Test Text\"\n}"
+					"raw": "{\t\n\t\"userID\":\"5dfe62cf9453041971e8ef62\",\n\t\"noteID\":\"5dffabd6fb9935415da6bbc3\",\n\t\"title\":\"Wakky's Note\",\n\t\"description\":\"Test Text\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/note",
@@ -129,7 +129,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/note?userID=5e062d70a4aa2f0f3b25d53e&noteID=5e063527aeabd113f2095bae",
+					"raw": "http://localhost:8080/note?userID=5dfe62cf9453041971e8ef62&noteID=5dff34fb63852b11057514ac",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -141,11 +141,11 @@
 					"query": [
 						{
 							"key": "userID",
-							"value": "5e062d70a4aa2f0f3b25d53e"
+							"value": "5dfe62cf9453041971e8ef62"
 						},
 						{
 							"key": "noteID",
-							"value": "5e063527aeabd113f2095bae"
+							"value": "5dff34fb63852b11057514ac"
 						}
 					]
 				}
@@ -158,7 +158,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/note?userID=5e062d70a4aa2f0f3b25d53e&noteID=5e0878f015415e1096a77b84",
+					"raw": "http://localhost:8080/note?userID=5def2ba16b802a2dfcb97a7a&noteID=5def2bf46b802a2dfcb97a7b",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -170,11 +170,11 @@
 					"query": [
 						{
 							"key": "userID",
-							"value": "5e062d70a4aa2f0f3b25d53e"
+							"value": "5def2ba16b802a2dfcb97a7a"
 						},
 						{
 							"key": "noteID",
-							"value": "5e0878f015415e1096a77b84"
+							"value": "5def2bf46b802a2dfcb97a7b"
 						}
 					]
 				}
@@ -187,7 +187,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/notes?userID=5e062d70a4aa2f0f3b25d53e&pageSize=5&currentPage=1",
+					"raw": "http://localhost:8080/notes?userID=5dfe62cf9453041971e8ef62",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -199,15 +199,7 @@
 					"query": [
 						{
 							"key": "userID",
-							"value": "5e062d70a4aa2f0f3b25d53e"
-						},
-						{
-							"key": "pageSize",
-							"value": "5"
-						},
-						{
-							"key": "currentPage",
-							"value": "1"
+							"value": "5dfe62cf9453041971e8ef62"
 						}
 					]
 				}
@@ -215,18 +207,17 @@
 			"response": []
 		},
 		{
-			"name": "Test API",
+			"name": "http://localhost:8080/",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://fast-mountain-21703.herokuapp.com/",
-					"protocol": "https",
+					"raw": "http://localhost:8080/",
+					"protocol": "http",
 					"host": [
-						"fast-mountain-21703",
-						"herokuapp",
-						"com"
+						"localhost"
 					],
+					"port": "8080",
 					"path": [
 						""
 					]
