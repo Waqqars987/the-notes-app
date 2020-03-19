@@ -14,7 +14,7 @@ const mailOptions = {
 	from    : process.env.EMAIL_ID,
 	to      : '',
 	subject : 'Congrats, Notes App Registration Successfull!',
-	text    : `Hi User,
+	text    : `Hi there,
     
     Your registration to the Notes App is successfull!
     Fret not as all your notes are encrypted by AES-128 alogorithm and your password is Hashed.
